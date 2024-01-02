@@ -17,6 +17,8 @@ namespace PolyAndCode.UI
         public IRecyclableScrollRectDataSource DataSource;
 
         public bool IsGrid;
+        public bool IsLoop;
+        public bool IsReverse;
         //Prototype cell can either be a prefab or present as a child to the content(will automatically be disabled in runtime)
         public RectTransform PrototypeCell;
         //If true the intiziation happens at Start. Controller must assign the datasource in Awake.
@@ -56,8 +58,8 @@ namespace PolyAndCode.UI
         {
             //defafult(built-in) in scroll rect can have both directions enabled, Recyclable scroll rect can be scrolled in only one direction.
             //setting default as vertical, Initialize() will set this again. 
-            vertical = true;
-            horizontal = false;
+            //vertical = true;
+            //horizontal = false;
 
             if (!Application.isPlaying) return;
 
@@ -72,11 +74,11 @@ namespace PolyAndCode.UI
             //Contruct the recycling system.
             if (Direction == DirectionType.Vertical)
             {
-                _recyclingSystem = new VerticalRecyclingSystem(PrototypeCell, viewport, content, Padding, Spacing, DataSource, IsGrid, Segments);
+                _recyclingSystem = new VerticalRecyclingSystem(PrototypeCell, viewport, content, Padding, Spacing, DataSource, IsGrid, IsLoop, IsReverse, Segments);
             }
             else if (Direction == DirectionType.Horizontal)
             {
-                _recyclingSystem = new HorizontalRecyclingSystem(PrototypeCell, viewport, content, Padding, Spacing, DataSource, IsGrid, Segments);
+                _recyclingSystem = new HorizontalRecyclingSystem(PrototypeCell, viewport, content, Padding, Spacing, DataSource, IsGrid, IsLoop, IsReverse, Segments);
             }
             vertical = Direction == DirectionType.Vertical;
             horizontal = Direction == DirectionType.Horizontal;
@@ -84,9 +86,7 @@ namespace PolyAndCode.UI
             _prevAnchoredPos = content.anchoredPosition;
             onValueChanged.RemoveListener(OnValueChangedListener);
             //Adding listener after pool creation to avoid any unwanted recycling behaviour.(rare scenerio)
-            StartCoroutine(_recyclingSystem.InitCoroutine(() =>
-                                                               onValueChanged.AddListener(OnValueChangedListener)
-                                                              ));
+            _recyclingSystem.Init(() => onValueChanged.AddListener(OnValueChangedListener));
         }
 
         /// <summary>
@@ -129,9 +129,7 @@ namespace PolyAndCode.UI
                 StopMovement();
                 onValueChanged.RemoveListener(OnValueChangedListener);
                 _recyclingSystem.DataSource = dataSource;
-                StartCoroutine(_recyclingSystem.InitCoroutine(() =>
-                                                               onValueChanged.AddListener(OnValueChangedListener)
-                                                              ));
+                _recyclingSystem.Init(() => onValueChanged.AddListener(OnValueChangedListener));
                 _prevAnchoredPos = content.anchoredPosition;
             }
         }

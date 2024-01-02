@@ -2,7 +2,7 @@
 //Copyright (c) 2020 Mohammed Iqubal Hussain
 //Website : Polyandcode.com 
 
-
+using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 namespace PolyAndCode.UI
@@ -19,12 +19,27 @@ namespace PolyAndCode.UI
         protected RectOffset Padding;
         protected float Spacing;
         protected bool IsGrid;
+        protected bool IsLoop;
+        protected bool IsReverse;
+
+        //Cell dimensions
+        protected float _cellWidth, _cellHeight;
+
+        //Pool Generation
+        protected List<RectTransform> _cellPool;
+        protected List<ICell> _cachedCells;
+        protected Bounds _recyclableViewBounds;
+        public List<ICell> CachedCells => _cachedCells;
+
+        //Temps, Flags
+        protected readonly Vector3[] _corners = new Vector3[4];
+        protected bool _recycling;
 
         protected float MinPoolCoverage = 1.5f; // The recyclable pool must cover (viewPort * _poolCoverage) area.
         protected int MinPoolSize = 10; // Cell pool must have a min size
         protected float RecyclingThreshold = .2f; //Threshold for recycling above and below viewport
 
-        public abstract IEnumerator InitCoroutine(System.Action onInitialized = null);
+        public abstract void Init(System.Action onInitialized = null);
 
         public abstract Vector2 OnValueChangedListener(Vector2 direction);
     }
