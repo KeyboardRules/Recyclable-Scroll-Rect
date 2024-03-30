@@ -19,7 +19,6 @@ namespace PolyAndCode.UI
         protected RectOffset Padding;
         protected Vector2 Spacing;
         protected bool IsGrid;
-        protected bool IsLoop;
         protected bool IsReverse;
 
         //Cell dimensions

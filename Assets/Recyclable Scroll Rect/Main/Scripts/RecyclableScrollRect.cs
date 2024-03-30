@@ -72,14 +72,31 @@ namespace PolyAndCode.UI
         private void Initialize()
         {
             //Contruct the recycling system.
-            if (Direction == DirectionType.Vertical)
+            switch (Direction)
             {
-                _recyclingSystem = new VerticalRecyclingSystem(PrototypeCell, viewport, content, Padding, Spacing, DataSource, IsGrid, IsLoop, IsReverse, Segments);
+                case DirectionType.Vertical:
+                    if (IsLoop)
+                    {
+                        _recyclingSystem = new LoopVerticalRecyclingSystem(PrototypeCell, viewport, content, Padding, Spacing, DataSource, IsGrid, IsReverse, Segments);
+
+                    }
+                    else
+                    {
+                        _recyclingSystem = new VerticalRecyclingSystem(PrototypeCell, viewport, content, Padding, Spacing, DataSource, IsGrid, IsReverse, Segments);
+                    }
+                    break;
+                case DirectionType.Horizontal:
+                    if (IsLoop)
+                    {
+                        _recyclingSystem = new LoopHorizontalRecyclingSystem(PrototypeCell, viewport, content, Padding, Spacing, DataSource, IsGrid, IsReverse, Segments);
+                    }
+                    else
+                    {
+                        _recyclingSystem = new HorizontalRecyclingSystem(PrototypeCell, viewport, content, Padding, Spacing, DataSource, IsGrid, IsReverse, Segments);
+                    }
+                    break;
             }
-            else if (Direction == DirectionType.Horizontal)
-            {
-                _recyclingSystem = new HorizontalRecyclingSystem(PrototypeCell, viewport, content, Padding, Spacing, DataSource, IsGrid, IsLoop, IsReverse, Segments);
-            }
+
             vertical = Direction == DirectionType.Vertical;
             horizontal = Direction == DirectionType.Horizontal;
 
