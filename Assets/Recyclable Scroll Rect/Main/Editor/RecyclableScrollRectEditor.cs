@@ -32,6 +32,7 @@ namespace PolyAndCode.UI
         SerializedProperty _direction;
         SerializedProperty _padding;
         SerializedProperty _spacing;
+        SerializedProperty _segments;
         SerializedProperty _grid;
         SerializedProperty _loop;
         SerializedProperty _reverse;
@@ -54,14 +55,15 @@ namespace PolyAndCode.UI
             m_OnValueChanged = serializedObject.FindProperty("m_OnValueChanged");
 
             //Inherited
-            _protoTypeCell = serializedObject.FindProperty("PrototypeCell");
-            _selfInitialize = serializedObject.FindProperty("SelfInitialize");
-            _direction = serializedObject.FindProperty("Direction");
-            _padding = serializedObject.FindProperty("Padding");
-            _spacing = serializedObject.FindProperty("Spacing");
-            _grid = serializedObject.FindProperty("IsGrid");
-            _loop = serializedObject.FindProperty("IsLoop");
-            _reverse = serializedObject.FindProperty("IsReverse");
+            _protoTypeCell = serializedObject.FindProperty("_prototypeCell");
+            _selfInitialize = serializedObject.FindProperty("_selfInitialize");
+            _direction = serializedObject.FindProperty("_direction");
+            _padding = serializedObject.FindProperty("_padding");
+            _spacing = serializedObject.FindProperty("_spacing");
+            _segments = serializedObject.FindProperty("_segments");
+            _grid = serializedObject.FindProperty("_isGrid");
+            _loop = serializedObject.FindProperty("_isLoop");
+            _reverse = serializedObject.FindProperty("_isReverse");
 
             m_ShowElasticity = new AnimBool(Repaint);
             m_ShowDecelerationRate = new AnimBool(Repaint);
@@ -98,7 +100,8 @@ namespace PolyAndCode.UI
             if (_grid.boolValue)
             {
                 string title = _direction.enumValueIndex == (int)RecyclableScrollRect.DirectionType.Vertical ? "Coloumns" : "Rows";
-                _script.Segments = EditorGUILayout.IntField(title, _script.Segments);
+                EditorGUILayout.PropertyField(_segments, new GUIContent(title));
+                _segments.intValue = Mathf.Max(2, _segments.intValue);
             }
 
             EditorGUILayout.PropertyField(_loop);
@@ -115,8 +118,8 @@ namespace PolyAndCode.UI
             }
             else
             {
-                float value = EditorGUILayout.FloatField("Spacing", _direction.enumValueIndex == (int)RecyclableScrollRect.DirectionType.Vertical ? _script.Spacing.y : _script.Spacing.x);
-                _script.Spacing = new Vector2(value,value);
+                float value = EditorGUILayout.FloatField("Spacing", _direction.enumValueIndex == (int)RecyclableScrollRect.DirectionType.Vertical ? _spacing.vector2Value.y : _spacing.vector2Value.x);
+                _spacing.vector2Value = new Vector2(value,value);
             }
                 
             EditorGUILayout.PropertyField(_selfInitialize);

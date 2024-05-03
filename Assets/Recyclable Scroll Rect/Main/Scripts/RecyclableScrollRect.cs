@@ -13,43 +13,30 @@ namespace PolyAndCode.UI
     /// </summary>
     public class RecyclableScrollRect : ScrollRect
     {
+        
         [HideInInspector]
         public IRecyclableScrollRectDataSource DataSource;
 
-        public bool IsGrid;
-        public bool IsLoop;
-        public bool IsReverse;
+        [SerializeField] private bool _isGrid;
+        [SerializeField] private bool _isLoop;
+        [SerializeField] private bool _isReverse;
         //Prototype cell can either be a prefab or present as a child to the content(will automatically be disabled in runtime)
-        public RectTransform PrototypeCell;
+        [SerializeField] private RectTransform _prototypeCell;
         //If true the intiziation happens at Start. Controller must assign the datasource in Awake.
         //Set to false if self init is not required and use public init API.
-        public bool SelfInitialize = true;
+        [SerializeField] private bool _selfInitialize = true;
 
         public enum DirectionType
         {
             Vertical,
             Horizontal
         }
-
-        public DirectionType Direction;
-
-        public RectOffset Padding;
-        public Vector2 Spacing;
+        [SerializeField] private DirectionType _direction;
+        [SerializeField] private RectOffset _padding;
+        [SerializeField] private Vector2 _spacing;
 
         //Segments : coloums for vertical and rows for horizontal.
-        public int Segments
-        {
-            set
-            {
-                _segments = Math.Max(value, 2);
-            }
-            get
-            {
-                return _segments;
-            }
-        }
-        [SerializeField]
-        private int _segments;
+        [SerializeField] private int _segments;
 
         private RecyclingSystem _recyclingSystem;
         private Vector2 _prevAnchoredPos;
@@ -63,7 +50,7 @@ namespace PolyAndCode.UI
 
             if (!Application.isPlaying) return;
 
-            if (SelfInitialize) Initialize();
+            if (_selfInitialize) Initialize();
         }
 
         /// <summary>
@@ -72,33 +59,33 @@ namespace PolyAndCode.UI
         private void Initialize()
         {
             //Contruct the recycling system.
-            switch (Direction)
+            switch (_direction)
             {
                 case DirectionType.Vertical:
-                    if (IsLoop)
+                    if (_isLoop)
                     {
-                        _recyclingSystem = new LoopVerticalRecyclingSystem(PrototypeCell, viewport, content, Padding, Spacing, DataSource, IsGrid, IsReverse, Segments);
+                        _recyclingSystem = new LoopVerticalRecyclingSystem(_prototypeCell, viewport, content, _padding, _spacing, DataSource, _isGrid, _isReverse, _segments);
 
                     }
                     else
                     {
-                        _recyclingSystem = new VerticalRecyclingSystem(PrototypeCell, viewport, content, Padding, Spacing, DataSource, IsGrid, IsReverse, Segments);
+                        _recyclingSystem = new VerticalRecyclingSystem(_prototypeCell, viewport, content, _padding, _spacing, DataSource, _isGrid, _isReverse, _segments);
                     }
                     break;
                 case DirectionType.Horizontal:
-                    if (IsLoop)
+                    if (_isLoop)
                     {
-                        _recyclingSystem = new LoopHorizontalRecyclingSystem(PrototypeCell, viewport, content, Padding, Spacing, DataSource, IsGrid, IsReverse, Segments);
+                        _recyclingSystem = new LoopHorizontalRecyclingSystem(_prototypeCell, viewport, content, _padding, _spacing, DataSource, _isGrid, _isReverse, _segments);
                     }
                     else
                     {
-                        _recyclingSystem = new HorizontalRecyclingSystem(PrototypeCell, viewport, content, Padding, Spacing, DataSource, IsGrid, IsReverse, Segments);
+                        _recyclingSystem = new HorizontalRecyclingSystem(_prototypeCell, viewport, content, _padding, _spacing, DataSource, _isGrid, _isReverse, _segments);
                     }
                     break;
             }
 
-            vertical = Direction == DirectionType.Vertical;
-            horizontal = Direction == DirectionType.Horizontal;
+            vertical = _direction == DirectionType.Vertical;
+            horizontal = _direction == DirectionType.Horizontal;
 
             _prevAnchoredPos = content.anchoredPosition;
             onValueChanged.RemoveListener(OnValueChangedListener);

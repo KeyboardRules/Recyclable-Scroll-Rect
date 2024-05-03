@@ -180,7 +180,6 @@ namespace PolyAndCode.UI
 
             //Get the required pool coverage and mininum size for the Cell pool
             float requriedCoverage = MinPoolCoverage * Viewport.rect.width;
-            bool isReset;
             int minPoolSize;
 
             minPoolSize = Math.Min(MinPoolSize, _itemCount);
@@ -261,7 +260,6 @@ namespace PolyAndCode.UI
 
             //Get the required pool coverage and mininum size for the Cell pool
             float requriedCoverage = MinPoolCoverage * Viewport.rect.width;
-            bool isReset;
             int minPoolSize;
 
             //Set the prototype cell active and set cell anchor as top 
