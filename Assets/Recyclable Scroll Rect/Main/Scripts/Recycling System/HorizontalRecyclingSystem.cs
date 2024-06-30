@@ -50,7 +50,7 @@ namespace PolyAndCode.UI
         {
             //Setting up container and bounds
             SetLeftAnchor(Content);
-            Content.anchoredPosition = Vector3.zero;
+            Content.anchoredPosition = Vector2.zero;
             SetRecyclingBounds();
 
             //Cell Poool

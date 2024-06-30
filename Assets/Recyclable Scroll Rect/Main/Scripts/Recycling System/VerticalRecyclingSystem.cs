@@ -54,7 +54,7 @@ namespace PolyAndCode.UI
         public override void Init(System.Action onInitialized)
         {
             SetTopAnchor(Content);
-            Content.anchoredPosition = Vector3.zero;
+            Content.anchoredPosition = Vector2.zero;
             SetRecyclingBounds();
 
             //Cell Poool
@@ -183,7 +183,6 @@ namespace PolyAndCode.UI
 
             //Get the required pool coverage and mininum size for the Cell pool
             float requriedCoverage = MinPoolCoverage * Viewport.rect.height;
-            bool isReset;
             int minPoolSize;
 
             minPoolSize = Math.Min(MinPoolSize, _itemCount);
@@ -557,10 +556,12 @@ namespace PolyAndCode.UI
             float width = rectTransform.rect.width;
             float height = rectTransform.rect.height;
 
+            Vector2 pos = IsGrid ? new Vector2(0, 1) : new Vector2(0.5f, 1);
+
             //Setting top anchor 
-            rectTransform.anchorMin = new Vector2(0.5f, 1);
-            rectTransform.anchorMax = new Vector2(0.5f, 1);
-            rectTransform.pivot = new Vector2(0.5f, 1);
+            rectTransform.anchorMin = pos;
+            rectTransform.anchorMax = pos;
+            rectTransform.pivot = pos;
 
             //Reapply size
             rectTransform.sizeDelta = new Vector2(width, height);
