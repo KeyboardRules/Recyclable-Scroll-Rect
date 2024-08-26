@@ -24,6 +24,17 @@ namespace PolyAndCode.UI
         SerializedProperty m_DecelerationRate;
         SerializedProperty m_ScrollSensitivity;
         SerializedProperty m_Viewport;
+
+        //Scroll View Horizontal
+        SerializedProperty m_HorizontalScrollBar;
+        SerializedProperty m_HorizontalScrollBarVisibillity;
+        SerializedProperty m_HorizontalScrollBarSpacing;
+
+        //Scroll View Vertical
+        SerializedProperty m_VerticalScrollBar;
+        SerializedProperty m_VerticalScrollBarVisibillity;
+        SerializedProperty m_VerticalScrollBarSpacing;
+
         SerializedProperty m_OnValueChanged;
 
         //inherited
@@ -52,6 +63,15 @@ namespace PolyAndCode.UI
             m_DecelerationRate = serializedObject.FindProperty("m_DecelerationRate");
             m_ScrollSensitivity = serializedObject.FindProperty("m_ScrollSensitivity");
             m_Viewport = serializedObject.FindProperty("m_Viewport");
+
+            m_HorizontalScrollBar = serializedObject.FindProperty("m_HorizontalScrollbar");
+            m_HorizontalScrollBarVisibillity = serializedObject.FindProperty("m_HorizontalScrollbarVisibility");
+            m_HorizontalScrollBarSpacing = serializedObject.FindProperty("m_HorizontalScrollbarSpacing");
+
+            m_VerticalScrollBar = serializedObject.FindProperty("m_VerticalScrollbar");
+            m_VerticalScrollBarVisibillity = serializedObject.FindProperty("m_VerticalScrollbarVisibility");
+            m_VerticalScrollBarSpacing = serializedObject.FindProperty("m_VerticalScrollbarSpacing");
+
             m_OnValueChanged = serializedObject.FindProperty("m_OnValueChanged");
 
             //Inherited
@@ -125,6 +145,34 @@ namespace PolyAndCode.UI
             EditorGUILayout.PropertyField(_selfInitialize);
             EditorGUILayout.PropertyField(m_Viewport);
             EditorGUILayout.PropertyField(m_Content);
+
+            if (!_loop.boolValue)
+            {
+                if (_direction.enumValueIndex == (int)RecyclableScrollRect.DirectionType.Horizontal)
+                {
+                    m_VerticalScrollBar.objectReferenceValue = null;
+
+                    EditorGUILayout.PropertyField(m_HorizontalScrollBar);
+                    EditorGUILayout.PropertyField(m_HorizontalScrollBarVisibillity);
+                    EditorGUILayout.PropertyField(m_HorizontalScrollBarSpacing);
+                }
+                else if(_direction.enumValueIndex == (int)RecyclableScrollRect.DirectionType.Vertical)
+                {
+                    m_HorizontalScrollBar.objectReferenceValue = null;
+
+                    EditorGUILayout.PropertyField(m_VerticalScrollBar);
+                    EditorGUILayout.PropertyField(m_VerticalScrollBarVisibillity);
+                    EditorGUILayout.PropertyField(m_VerticalScrollBarSpacing);
+                }
+            }
+            else
+            {
+                m_VerticalScrollBar.objectReferenceValue = null;
+                m_HorizontalScrollBar.objectReferenceValue = null;
+            }
+            
+
+
             EditorGUILayout.PropertyField(_protoTypeCell);
             EditorGUILayout.Space();
 
