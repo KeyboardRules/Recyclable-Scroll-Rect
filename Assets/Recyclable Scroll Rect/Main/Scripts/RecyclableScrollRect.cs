@@ -84,8 +84,11 @@ namespace PolyAndCode.UI
                     break;
             }
 
-            vertical = _direction == DirectionType.Vertical;
             horizontal = _direction == DirectionType.Horizontal;
+            vertical = _direction == DirectionType.Vertical;
+
+            if (horizontal) horizontalScrollbar = horizontalScrollbar;
+            if (vertical) verticalScrollbar = verticalScrollbar;
 
             _prevAnchoredPos = content.anchoredPosition;
             onValueChanged.RemoveListener(OnValueChangedListener);
@@ -151,6 +154,14 @@ namespace PolyAndCode.UI
                 _recyclingSystem.DataSource = dataSource;
                 _recyclingSystem.Init(() => onValueChanged.AddListener(OnValueChangedListener));
                 _prevAnchoredPos = content.anchoredPosition;
+            }
+        }
+
+        public void OnDrawGizmos()
+        {
+            if(_recyclingSystem != null)
+            {
+                _recyclingSystem.OnDrawGizmos();
             }
         }
     }

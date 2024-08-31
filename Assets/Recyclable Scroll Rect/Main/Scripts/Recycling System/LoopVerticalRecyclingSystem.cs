@@ -615,7 +615,7 @@ namespace PolyAndCode.UI
         #endregion
 
         #region TESTING
-        public void OnDrawGizmos()
+        public override void OnDrawGizmos()
         {
             Gizmos.color = Color.green;
             Gizmos.DrawLine(_recyclableViewBounds.min - new Vector3(2000, 0), _recyclableViewBounds.min + new Vector3(2000, 0));

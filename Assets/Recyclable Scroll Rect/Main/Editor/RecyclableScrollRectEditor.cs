@@ -2,10 +2,10 @@
 //Copyright (c) 2020 Mohammed Iqubal Hussain
 //Website : Polyandcode.com 
 
-using UnityEngine.UI;
 using UnityEditor.AnimatedValues;
 using UnityEditor;
 using UnityEngine;
+using static UnityEngine.UI.ScrollRect;
 
 namespace PolyAndCode.UI
 {
@@ -98,7 +98,7 @@ namespace PolyAndCode.UI
 
         void SetAnimBools(bool instant)
         {
-            SetAnimBool(m_ShowElasticity, !m_MovementType.hasMultipleDifferentValues && m_MovementType.enumValueIndex == (int)ScrollRect.MovementType.Elastic, instant);
+            SetAnimBool(m_ShowElasticity, !m_MovementType.hasMultipleDifferentValues && m_MovementType.enumValueIndex == (int)MovementType.Elastic, instant);
             SetAnimBool(m_ShowDecelerationRate, !m_Inertia.hasMultipleDifferentValues && m_Inertia.boolValue, instant);
         }
 
@@ -155,6 +155,12 @@ namespace PolyAndCode.UI
                     EditorGUILayout.PropertyField(m_HorizontalScrollBar);
                     EditorGUILayout.PropertyField(m_HorizontalScrollBarVisibillity);
                     EditorGUILayout.PropertyField(m_HorizontalScrollBarSpacing);
+
+                    if(m_HorizontalScrollBarVisibillity.enumValueIndex == (int)ScrollbarVisibility.AutoHideAndExpandViewport)
+                    {
+                        Debug.LogWarning("Recycle view doesn't support auto hide and expand visibility");
+                        m_HorizontalScrollBarVisibillity.enumValueIndex = (int)ScrollbarVisibility.AutoHide;
+                    }
                 }
                 else if(_direction.enumValueIndex == (int)RecyclableScrollRect.DirectionType.Vertical)
                 {
@@ -163,6 +169,12 @@ namespace PolyAndCode.UI
                     EditorGUILayout.PropertyField(m_VerticalScrollBar);
                     EditorGUILayout.PropertyField(m_VerticalScrollBarVisibillity);
                     EditorGUILayout.PropertyField(m_VerticalScrollBarSpacing);
+
+                    if (m_VerticalScrollBarVisibillity.enumValueIndex == (int)ScrollbarVisibility.AutoHideAndExpandViewport)
+                    {
+                        Debug.LogWarning("Recycle view doesn't support auto hide and expand visibility");
+                        m_VerticalScrollBarVisibillity.enumValueIndex = (int)ScrollbarVisibility.AutoHide;
+                    }
                 }
             }
             else
