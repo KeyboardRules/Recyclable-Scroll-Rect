@@ -152,6 +152,15 @@ namespace PolyAndCode.UI
             }
         }
         /// <summary>
+        /// This function is not supported in loop mode (yet!)
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="onGoTo"></param>
+        public override Vector2 ScrollToItem(int index)
+        {
+            return Vector2.zero;
+        }
+        /// <summary>
         /// Sets the uppper and lower bounds for recycling cells.
         /// </summary>
         private void SetRecyclingBounds()

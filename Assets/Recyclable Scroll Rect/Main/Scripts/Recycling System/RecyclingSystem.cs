@@ -46,9 +46,7 @@ namespace PolyAndCode.UI
         public abstract void Init(System.Action onInitialized = null);
         public abstract void Reset(System.Action onReset = null);
         public abstract void Refresh(System.Action onRefresh = null);
-
-        //public abstract void GoTo(System.Action onGoTo = null);
-
+        public abstract Vector2 ScrollToItem(int index);
 
         public abstract Vector2 OnValueChangedListener(Vector2 direction);
 

@@ -125,6 +125,19 @@ namespace PolyAndCode.UI
             }
         }
         /// <summary>
+        /// Function for scroll to item with index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="onGoTo"></param>
+        public override Vector2 ScrollToItem(int index)
+        {
+            float fixedIndex = Mathf.Clamp(index, 0, _itemCount);
+            int rows = Mathf.CeilToInt((fixedIndex + 1) / _coloumns);
+            float contentYPos = (rows - 1) * (_cellHeight + Spacing.y) + Padding.top - Viewport.rect.size.y / 2 + _cellHeight / 2;
+
+            return Vector2.up * Mathf.Clamp(contentYPos, 0f, Content.rect.size.y - Viewport.rect.size.y);
+        }
+        /// <summary>
         /// Sets the uppper and lower bounds for recycling cells.
         /// </summary>
         private void SetRecyclingBounds()
@@ -337,7 +350,7 @@ namespace PolyAndCode.UI
         }
         #endregion
 
-            #region RECYCLING
+        #region RECYCLING
             /// <summary>
             /// Recyling entry point
             /// </summary>

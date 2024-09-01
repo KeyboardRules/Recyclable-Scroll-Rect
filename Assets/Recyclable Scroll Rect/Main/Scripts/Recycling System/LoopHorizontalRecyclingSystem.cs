@@ -155,7 +155,15 @@ namespace PolyAndCode.UI
                 DataSource.RefreshCell(_cachedCells[i]);
             }
         }
-
+        /// <summary>
+        /// This function is not supported in loop mode (yet!)
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="onGoTo"></param>
+        public override Vector2 ScrollToItem(int index)
+        {
+            return Vector2.zero;
+        }
         /// <summary>
         /// Sets the uppper and lower bounds for recycling cells.
         /// </summary>
@@ -559,7 +567,7 @@ namespace PolyAndCode.UI
             _cacheCellPool.ForEach((RectTransform cell) => cell.anchoredPosition += n * Vector2.right * (_cacheCellPool[_leftMostCellIndex].sizeDelta.x + Spacing.x));
             Content.anchoredPosition -= n * Vector2.right * (_cacheCellPool[_leftMostCellIndex].sizeDelta.x + Spacing.x);
             _recycling = false;
-            return -n * Vector2.right * (_cacheCellPool[_leftMostCellIndex].sizeDelta.x + Spacing.x);
+            return n * Vector2.left * (_cacheCellPool[_leftMostCellIndex].sizeDelta.x + Spacing.x);
         }
         #endregion
 
