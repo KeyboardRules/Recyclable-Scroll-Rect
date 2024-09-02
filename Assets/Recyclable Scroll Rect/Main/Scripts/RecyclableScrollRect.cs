@@ -118,7 +118,21 @@ namespace PolyAndCode.UI
 
             onValueChanged.RemoveListener(OnValueChangedListener);
             _recyclingSystem.Refresh(() => onValueChanged.AddListener(OnValueChangedListener));
-            
+        }
+        public void Scrolling(int index)
+        {
+            if(_isLoop)
+            {
+                Debug.LogWarning("This function is not supported in loop mode");
+                return;
+            }
+
+            StopMovement();
+            content.anchoredPosition = _recyclingSystem.ScrollToItem(index);
+
+            Vector2 dir = content.anchoredPosition - _prevAnchoredPos;
+            m_ContentStartPosition += _recyclingSystem.OnValueChangedListener(dir);
+            _prevAnchoredPos = content.anchoredPosition;
         }
 
         /// <summary>
@@ -152,7 +166,7 @@ namespace PolyAndCode.UI
                 StopMovement();
                 onValueChanged.RemoveListener(OnValueChangedListener);
                 _recyclingSystem.DataSource = dataSource;
-                _recyclingSystem.Init(() => onValueChanged.AddListener(OnValueChangedListener));
+                _recyclingSystem.Reset(() => onValueChanged.AddListener(OnValueChangedListener));
                 _prevAnchoredPos = content.anchoredPosition;
             }
         }
