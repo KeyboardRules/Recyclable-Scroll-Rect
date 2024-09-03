@@ -131,6 +131,8 @@ namespace PolyAndCode.UI
         /// <param name="onGoTo"></param>
         public override Vector2 ScrollToItem(int index)
         {
+            if (Content.rect.size.y <= Viewport.rect.size.y) return Vector2.zero;
+
             float fixedIndex = Mathf.Clamp(index, 0, _itemCount);
             int rows = Mathf.CeilToInt((fixedIndex + 1) / _coloumns);
             float contentYPos = (rows - 1) * (_cellHeight + Spacing.y) + Padding.top - Viewport.rect.size.y / 2 + _cellHeight / 2;
