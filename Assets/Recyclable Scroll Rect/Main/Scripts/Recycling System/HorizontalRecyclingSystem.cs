@@ -77,7 +77,7 @@ namespace PolyAndCode.UI
             Content.sizeDelta = new Vector2(contentXSize, Content.sizeDelta.y);
             SetLeftAnchor(Content);
 
-            if (onInitialized != null) onInitialized();
+            onInitialized?.Invoke();
         }
         /// <summary>
         /// Function for reseting recycle view, when you have things like search bar and you wanna update view list, use this
@@ -113,7 +113,7 @@ namespace PolyAndCode.UI
             Content.sizeDelta = new Vector2(contentXSize, Content.sizeDelta.y);
             SetLeftAnchor(Content);
 
-            if (onReset != null) onReset();
+            onReset?.Invoke();
         }
         /// <summary>
         /// Function for refreshing recycle view, when you wanna update some cell in view but list wasnt changed
@@ -125,6 +125,8 @@ namespace PolyAndCode.UI
             {
                 DataSource.RefreshCell(_cachedCells[i]);
             }
+
+            onRefresh?.Invoke();
         }
         /// <summary>
         /// Function for scroll to item with index
