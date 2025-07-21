@@ -125,10 +125,7 @@ namespace PolyAndCode.UI
             }
 
             EditorGUILayout.PropertyField(_loop);
-            using (var scope = new EditorGUI.DisabledGroupScope(true))
-            {
-                EditorGUILayout.PropertyField(_reverse);
-            }
+            EditorGUILayout.PropertyField(_reverse);
 
             EditorGUILayout.PropertyField(_padding);
 
